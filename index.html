@@ -8,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            /* CORES PRINCIPAIS (clean e leve) */
             --bg-body: #F6F3E8;
             --bg-card: #EEE9DA;
             --bg-soft: #E7E2CF;
@@ -118,92 +117,30 @@
             font-size: 1.2rem;
         }
 
-        /* CARROSSEL */
-        .carrossel-container {
+        /* VÍDEO - ESTILO SIMPLES */
+        .video-container {
             position: relative;
             border-radius: var(--radius);
             overflow: hidden;
-            background: var(--bg-soft);
+            background: #000;
+            margin-top: 1rem;
         }
 
-        .carrossel-slides {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .slide {
-            min-width: 100%;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .slide img, .slide video {
+        .video-container video {
             width: 100%;
-            height: 420px;
-            object-fit: cover;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
             display: block;
+            background: #000;
         }
 
-        .legenda {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .video-legenda {
             background: rgba(95, 143, 94, 0.9);
             color: #F6F3E8;
             padding: 0.8rem;
             text-align: center;
             font-weight: 500;
-        }
-
-        .seta {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(246, 243, 232, 0.9);
-            color: var(--primary-dark);
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 10;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .seta:hover {
-            background: var(--accent);
-            transform: translateY(-50%) scale(1.05);
-        }
-
-        .seta-esquerda { left: 15px; }
-        .seta-direita { right: 15px; }
-
-        .indicadores {
-            position: absolute;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
-
-        .indicador {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .indicador.ativo {
-            background: var(--accent);
-            width: 24px;
-            border-radius: 6px;
         }
 
         /* FORMULÁRIO */
@@ -294,7 +231,6 @@
             color: var(--primary-dark);
         }
 
-        /* GRÁFICO - VERSÃO MELHORADA */
         .grafico-container {
             background: #E7E2CF;
             border-radius: 12px;
@@ -309,85 +245,23 @@
             max-height: 400px;
         }
 
-        /* MODAL */
-        #modalZoom {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(40, 60, 40, 0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+        footer {
+            background: linear-gradient(135deg, #6F8F72, #4F6F52);
+            color: #FFFFFF !important;
             padding: 2rem;
-            backdrop-filter: blur(5px);
-        }
-
-        #modalZoom.active {
-            display: flex;
-        }
-
-        .modal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
             text-align: center;
+            margin-top: 2rem;
         }
 
-        .modal-content img {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        footer p {
+            color: #FFFFFF !important;
         }
 
-        .modal-content p {
-            color: var(--accent);
-            margin-top: 1rem;
-            font-size: 1.1rem;
-            font-weight: 500;
+        footer p:first-child {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #FFFFFF !important;
         }
-
-        .btn-fechar {
-            position: absolute;
-            top: -45px;
-            right: 0;
-            background: var(--accent);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            color: var(--primary-dark);
-            transition: all 0.2s;
-        }
-
-        .btn-fechar:hover {
-            transform: scale(1.05);
-            background: var(--primary);
-            color: white;
-        }
-
-    /* FOOTER */
-footer {
-    background: linear-gradient(135deg, #6F8F72, #4F6F52);
-    color: #FFFFFF !important;  /* 👈 FORÇA BRANCO */
-    padding: 2rem;
-    text-align: center;
-    margin-top: 2rem;
-}
-
-footer p {
-    color: #FFFFFF !important;  /* 👈 FORÇA TODOS OS PARÁGRAFOS */
-}
-
-footer p:first-child {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #FFFFFF !important;
-}
 
         @media (max-width: 768px) {
             header h1 { font-size: 1.8rem; }
@@ -396,14 +270,12 @@ footer p:first-child {
             h2 { font-size: 1.4rem; }
             form, .resultados-grid { grid-template-columns: 1fr; }
             #calcularBtn { grid-column: span 1; }
-            .slide img, .slide video { height: 280px; }
-            .seta { width: 36px; height: 36px; font-size: 1rem; }
-            .indicadores { bottom: 50px; }
+            .video-container video { max-height: 300px; }
             #grafico { height: 300px !important; }
         }
 
         @media (max-width: 480px) {
-            .slide img, .slide video { height: 220px; }
+            .video-container video { max-height: 220px; }
             .resultado-card span { font-size: 0.95rem; }
             #grafico { height: 250px !important; }
         }
@@ -435,28 +307,57 @@ footer p:first-child {
         </section>
 
         <section>
-            <h2>🖼️ Galeria da Catapulta</h2>
-            <div class="carrossel-container">
-                <button class="seta seta-esquerda" onclick="moverCarrossel(-1)">◀</button>
-                <div class="carrossel-slides" id="carrosselSlides">
-                    <div class="slide" data-zoom-img="./vd_img/catapultafoto.jpg">
-                        <img src="./vd_img/catapultafoto.jpg" alt="Catapulta frontal" onerror="this.src='https://placehold.co/800x450/7FB77E/FFFFFF?text=Catapulta+Frontal'">
-                        <div class="legenda">🎯 Vista frontal da catapulta</div>
-                    </div>
-                    <div class="slide" data-zoom-img="./vd_img/WhatsApp Image 2026-03-23 at 20.46.07.jpeg">
-                        <img src="./vd_img/WhatsApp Image 2026-03-23 at 20.46.07.jpeg" alt="Detalhe estrutura" onerror="this.src='https://placehold.co/800x450/7FB77E/FFFFFF?text=Detalhe+Estrutura'">
-                        <div class="legenda">🔧 Detalhe da estrutura</div>
-                    </div>
-                    <div class="slide">
-                        <video controls onerror="this.style.display='none'">
-                            <source src="./vd_img/WhatsApp Video 2026-03-23 at 21.21.30.mp4" type="video/mp4">
-                        </video>
-                        <div class="legenda">🎬 Lançamento da pedra</div>
-                    </div>
+            <h2>🎬 Vídeo do Lançamento</h2>
+            <div class="video-container">
+                <video controls muted>
+                    <source src="./img/video_catapulta.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução de vídeos.
+                </video>
+                <div class="video-legenda">
+                    🎯 Lançamento da pedra pela catapulta
                 </div>
-                <button class="seta seta-direita" onclick="moverCarrossel(1)">▶</button>
-                <div class="indicadores" id="indicadores"></div>
             </div>
+        </section>
+
+        <!-- SEÇÃO NOSSA TRAJETÓRIA -->
+        <section>
+            <h2>📘 Nossa Trajetória</h2>
+
+            <p>
+                A nossa catapulta foi montada utilizando <strong>palitinhos de madeira</strong>,
+                uma <strong>tampa de garrafa (guaraná)</strong>, um <strong>elástico</strong> e
+                <strong>cola quente</strong>.
+            </p>
+
+            <p>
+                Após a montagem, realizamos o lançamento de uma bolinha de cola quente.
+                Observamos que após <strong>1 segundo</strong>, ela atingiu
+                <strong>12 cm de altura</strong>, iniciando sua descida.
+            </p>
+
+            <p>
+                Modelamos o fenômeno com a função:
+                <strong>h(t) = at² + bt</strong> (pois parte do chão, então c = 0)
+            </p>
+
+            <ul>
+                <li>h(1) = 12 cm</li>
+                <li>t = 1 é o vértice (ponto mais alto)</li>
+            </ul>
+
+            <p><strong>t<sub>v</sub> = -b / (2a) = 1 → -b = 2a → b = -2a</strong></p>
+            <p><strong>h(1) = a(1)² + b(1) = a + b = 12</strong></p>
+            <p><strong>Substituindo b: a + (-2a) = 12 → -a = 12 → a = -12</strong></p>
+            <p><strong>b = -2(-12) = 24</strong></p>
+
+            <p>
+                Função final:
+                <strong>h(t) = -12t² + 24t</strong>
+            </p>
+            
+            <p>
+                <em>💡 Dica: O tempo total de voo é quando h(t) = 0 → -12t² + 24t = 0 → t(24 - 12t) = 0 → t = 0 ou t = 2 segundos</em>
+            </p>
         </section>
 
         <section>
@@ -467,8 +368,8 @@ footer p:first-child {
                     <input type="number" id="tempoTotal" step="0.1" value="2.0">
                 </div>
                 <div class="form-group">
-                    <label for="alturaMax">📏 Altura máxima (m):</label>
-                    <input type="number" id="alturaMax" step="0.1" value="5.0">
+                    <label for="alturaMax">📏 Altura máxima (cm):</label>
+                    <input type="number" id="alturaMax" step="0.1" value="500">
                 </div>
                 <button type="button" id="calcularBtn">🚀 Calcular Trajetória</button>
             </form>
@@ -498,14 +399,6 @@ footer p:first-child {
         </section>
     </main>
 
-    <div id="modalZoom">
-        <div class="modal-content">
-            <button class="btn-fechar" onclick="fecharModal()">✕ Fechar</button>
-            <img id="modalImagem" src="" alt="Imagem ampliada">
-            <p id="modalLegenda"></p>
-        </div>
-    </div>
-
     <footer>
         <p>🏆 Projeto interdisciplinar - Matemática e Desenvolvimento de Sistemas</p>
         <p>👥 Integrantes: Ana B - Cainan - Carol C - Daniel V - Rebeca</p>
@@ -513,119 +406,67 @@ footer p:first-child {
 
     <script>
         let chart;
-        let slideAtual = 0;
-        let totalSlides;
 
-        // ================= ZOOM =================
-        function abrirModal(imgSrc, legenda) {
-            const modal = document.getElementById('modalZoom');
-            const modalImg = document.getElementById('modalImagem');
-            const modalLegenda = document.getElementById('modalLegenda');
-            modalImg.src = imgSrc;
-            modalLegenda.textContent = legenda;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function fecharModal() {
-            const modal = document.getElementById('modalZoom');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // ================= CARROSSEL =================
-        function atualizarCarrossel() {
-            const slidesContainer = document.querySelector('.carrossel-slides');
-            const indicadores = document.querySelectorAll('.indicador');
-            if (slidesContainer) {
-                slidesContainer.style.transform = `translateX(-${slideAtual * 100}%)`;
-            }
-            indicadores.forEach((ind, index) => {
-                ind.classList.toggle('ativo', index === slideAtual);
-            });
-        }
-
-        function moverCarrossel(direcao) {
-            const slides = document.querySelectorAll('.slide');
-            totalSlides = slides.length;
-            slideAtual = (slideAtual + direcao + totalSlides) % totalSlides;
-            atualizarCarrossel();
-        }
-
-        function irParaSlide(index) {
-            slideAtual = index;
-            atualizarCarrossel();
-        }
-
-        function criarIndicadores() {
-            const slides = document.querySelectorAll('.slide');
-            const container = document.getElementById('indicadores');
-            if (!container) return;
-            container.innerHTML = '';
-            slides.forEach((_, i) => {
-                const ind = document.createElement('div');
-                ind.classList.add('indicador');
-                if (i === 0) ind.classList.add('ativo');
-                ind.onclick = () => irParaSlide(i);
-                container.appendChild(ind);
-            });
-            totalSlides = slides.length;
-        }
-
-        // ================= SIMULADOR =================
-        function calcularFuncao(tempoTotal, alturaMax) {
-            const a = -4 * alturaMax / (tempoTotal * tempoTotal);
-            const b = -a * tempoTotal;
+        // ================= SIMULADOR - FUNÇÃO CORRETA =================
+        function calcularFuncao(tempoTotal, alturaMaxCm) {
+            const alturaMaxM = alturaMaxCm / 100;
+            const tv = tempoTotal / 2;
+            const a = -alturaMaxM / (tv * tv);
+            const b = -2 * a * tv;
             const c = 0;
             return { a, b, c };
         }
 
         function atualizarSimulador() {
             const tempoTotal = parseFloat(document.getElementById("tempoTotal").value);
-            const alturaMax = parseFloat(document.getElementById("alturaMax").value);
+            const alturaMaxCm = parseFloat(document.getElementById("alturaMax").value);
 
             if (isNaN(tempoTotal) || tempoTotal <= 0) {
                 alert("⚠️ Por favor, insira um tempo total válido (maior que zero).");
                 return;
             }
 
-            if (isNaN(alturaMax) || alturaMax <= 0) {
+            if (isNaN(alturaMaxCm) || alturaMaxCm <= 0) {
                 alert("⚠️ Por favor, insira uma altura máxima válida (maior que zero).");
                 return;
             }
 
-            const { a, b, c } = calcularFuncao(tempoTotal, alturaMax);
+            const { a, b, c } = calcularFuncao(tempoTotal, alturaMaxCm);
             
-            const funcaoTexto = `h(t) = ${a.toFixed(2)}t² + ${b.toFixed(2)}t`;
+            let funcaoTexto = `h(t) = ${a.toFixed(2)}t² + ${b.toFixed(2)}t`;
+            if (c !== 0) funcaoTexto += ` + ${c.toFixed(2)}`;
             document.getElementById("funcaoTexto").innerHTML = `<strong>${funcaoTexto}</strong>`;
             
-            const h2 = a * 2 * 2 + b * 2;
-            document.getElementById("alturaDois").innerHTML = `<strong>${h2.toFixed(2)} m</strong>`;
+            const h2M = a * 2 * 2 + b * 2 + c;
+            const h2Cm = h2M * 100;
+            document.getElementById("alturaDois").innerHTML = `<strong>${h2Cm.toFixed(1)} cm</strong>`;
             
             const tv = -b / (2 * a);
-            const hv = a * tv * tv + b * tv + c;
-            document.getElementById("verticeInfo").innerHTML = `<strong>t = ${tv.toFixed(2)}s | h = ${hv.toFixed(2)}m</strong>`;
+            const hvM = a * tv * tv + b * tv + c;
+            const hvCm = hvM * 100;
+            document.getElementById("verticeInfo").innerHTML = `<strong>t = ${tv.toFixed(2)}s | h = ${hvCm.toFixed(1)} cm</strong>`;
             
-            document.getElementById("raizesInfo").innerHTML = `<strong>0.00s e ${tempoTotal.toFixed(2)}s</strong>`;
+            const tRaiz = -b / a;
+            document.getElementById("raizesInfo").innerHTML = `<strong>0.00s e ${tRaiz.toFixed(2)}s</strong>`;
 
-            gerarGrafico(tempoTotal, a, b, alturaMax);
+            gerarGrafico(tempoTotal, a, b, c, alturaMaxCm);
         }
 
-        function gerarGrafico(T, a, b, alturaMax) {
+        function gerarGrafico(T, a, b, c, alturaMaxCm) {
             const pontos = [];
             const labels = [];
-            const numPontos = 60; // Mais pontos para curva suave
+            const numPontos = 60;
+            const tempoMax = -b / a;
             
-            // Gerar pontos da parábola
             for (let i = 0; i <= numPontos; i++) {
-                let t = (T * i) / numPontos;
-                let h = a * t * t + b * t;
-                if (h < 0) h = 0;
-                pontos.push(parseFloat(h.toFixed(2)));
+                let t = (tempoMax * i) / numPontos;
+                let hM = a * t * t + b * t + c;
+                let hCm = hM * 100;
+                if (hCm < 0) hCm = 0;
+                pontos.push(parseFloat(hCm.toFixed(1)));
                 labels.push(t.toFixed(1));
             }
 
-            // Destruir gráfico anterior
             if (chart) {
                 chart.destroy();
             }
@@ -637,7 +478,7 @@ footer p:first-child {
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Altura da Pedra (m)',
+                        label: 'Altura da Pedra (cm)',
                         data: pontos,
                         borderColor: '#5F8F5E',
                         backgroundColor: 'rgba(127, 183, 126, 0.1)',
@@ -667,16 +508,11 @@ footer p:first-child {
                             bodyColor: '#5F6F52',
                             borderColor: '#F4D06F',
                             borderWidth: 2,
-                            titleFont: {
-                                size: 13,
-                                weight: 'bold'
-                            },
-                            bodyFont: {
-                                size: 12
-                            },
+                            titleFont: { size: 13, weight: 'bold' },
+                            bodyFont: { size: 12 },
                             callbacks: {
                                 label: function(context) {
-                                    return `📍 Altura: ${context.parsed.y.toFixed(2)} m`;
+                                    return `📍 Altura: ${context.parsed.y.toFixed(2)} cm`;
                                 },
                                 title: function(context) {
                                     return `⏱️ Tempo: ${context[0].label} s`;
@@ -688,10 +524,7 @@ footer p:first-child {
                             position: 'top',
                             align: 'center',
                             labels: {
-                                font: {
-                                    size: 13,
-                                    weight: 'bold'
-                                },
+                                font: { size: 13, weight: 'bold' },
                                 color: '#2F3E2F',
                                 usePointStyle: true,
                                 pointStyle: 'circle',
@@ -702,34 +535,20 @@ footer p:first-child {
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: Math.ceil(alturaMax * 1.1), // Espaço extra no topo
+                            max: Math.ceil(alturaMaxCm * 1.1),
                             title: {
                                 display: true,
-                                text: '📊 Altura (metros)',
+                                text: '📊 Altura (centímetros)',
                                 color: '#5F8F5E',
-                                font: {
-                                    size: 13,
-                                    weight: 'bold',
-                                    family: 'Inter'
-                                },
+                                font: { size: 13, weight: 'bold', family: 'Inter' },
                                 padding: { bottom: 10 }
                             },
-                            grid: {
-                                color: '#E0D8C8',
-                                drawBorder: true,
-                                borderColor: '#C0B8A8',
-                                borderWidth: 1
-                            },
+                            grid: { color: '#E0D8C8', drawBorder: true, borderColor: '#C0B8A8', borderWidth: 1 },
                             ticks: {
-                                stepSize: 1,
+                                stepSize: 50,
                                 color: '#5F6F52',
-                                font: {
-                                    size: 11,
-                                    weight: '500'
-                                },
-                                callback: function(value) {
-                                    return value.toFixed(1) + ' m';
-                                }
+                                font: { size: 11, weight: '500' },
+                                callback: function(value) { return value.toFixed(0) + ' cm'; }
                             }
                         },
                         x: {
@@ -737,90 +556,34 @@ footer p:first-child {
                                 display: true,
                                 text: '⏱️ Tempo (segundos)',
                                 color: '#5F8F5E',
-                                font: {
-                                    size: 13,
-                                    weight: 'bold',
-                                    family: 'Inter'
-                                },
+                                font: { size: 13, weight: 'bold', family: 'Inter' },
                                 padding: { top: 10 }
                             },
-                            grid: {
-                                color: '#E0D8C8',
-                                drawBorder: true,
-                                borderColor: '#C0B8A8'
-                            },
+                            grid: { color: '#E0D8C8', drawBorder: true, borderColor: '#C0B8A8' },
                             ticks: {
                                 color: '#5F6F52',
-                                font: {
-                                    size: 11,
-                                    weight: '500'
-                                },
+                                font: { size: 11, weight: '500' },
                                 stepSize: 0.5,
-                                callback: function(value) {
-                                    return value + ' s';
-                                }
+                                callback: function(value) { return value + ' s'; }
                             }
                         }
                     },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
+                    interaction: { intersect: false, mode: 'index' },
                     elements: {
-                        line: {
-                            fill: true,
-                            tension: 0.4
-                        },
-                        point: {
-                            radius: 3,
-                            hoverRadius: 7
-                        }
+                        line: { fill: true, tension: 0.4 },
+                        point: { radius: 3, hoverRadius: 7 }
                     },
-                    layout: {
-                        padding: {
-                            top: 20,
-                            bottom: 10,
-                            left: 10,
-                            right: 10
-                        }
-                    }
+                    layout: { padding: { top: 20, bottom: 10, left: 10, right: 10 } }
                 }
             });
         }
 
         // ================= EVENTOS =================
         window.addEventListener("load", () => {
-            criarIndicadores();
             atualizarSimulador();
-            
-            document.querySelectorAll('.slide').forEach(slide => {
-                const img = slide.querySelector('img');
-                if (img && !slide.querySelector('video')) {
-                    slide.addEventListener('click', () => {
-                        const zoomSrc = slide.getAttribute('data-zoom-img') || img.src;
-                        const legenda = slide.querySelector('.legenda').textContent;
-                        if (zoomSrc && legenda) {
-                            abrirModal(zoomSrc, legenda);
-                        }
-                    });
-                }
-            });
         });
 
         document.getElementById("calcularBtn").addEventListener("click", atualizarSimulador);
-        
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") moverCarrossel(-1);
-            if (e.key === "ArrowRight") moverCarrossel(1);
-            if (e.key === "Escape") fecharModal();
-        });
-        
-        const modal = document.getElementById('modalZoom');
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) fecharModal();
-            });
-        }
     </script>
 </body>
 </html>
