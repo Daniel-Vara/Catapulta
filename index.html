@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catapulta - Função do 2º Grau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            /* CORES PRINCIPAIS (clean e leve) */
+            --bg-body: #F6F3E8;
+            --bg-card: #EEE9DA;
+            --bg-soft: #E7E2CF;
+            --primary: #7FB77E;
+            --primary-dark: #5F8F5E;
+            --secondary: #BFD8A8;
+            --accent: #F4D06F;
+            --text-main: #2F3E2F;
+            --text-muted: #5F6F52;
+            --border: #D6D2C4;
+            --shadow: 0 6px 18px rgba(0,0,0,0.07);
+            --radius: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F6F3E8, #EFEAD8);
+            color: var(--text-main);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #F6F3E8;
+            padding: 2.5rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+        }
+
+        header p {
+            opacity: 0.9;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: -2rem auto 3rem;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 6px;
+            height: 28px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        strong {
+            color: var(--primary-dark);
+        }
+
+        ul {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            margin: 0.4rem 0;
+            position: relative;
+            color: var(--text-muted);
+        }
+
+        ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+
+        /* CARROSSEL */
+        .carrossel-container {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--bg-soft);
+        }
+
+        .carrossel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .slide img, .slide video {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .legenda {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(95, 143, 94, 0.9);
+            color: #F6F3E8;
+            padding: 0.8rem;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .seta {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(246, 243, 232, 0.9);
+            color: var(--primary-dark);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .seta:hover {
+            background: var(--accent);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .seta-esquerda { left: 15px; }
+        .seta-direita { right: 15px; }
+
+        .indicadores {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicador {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicador.ativo {
+            background: var(--accent);
+            width: 24px;
+            border-radius: 6px;
+        }
+
+        /* FORMULÁRIO */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 0.9rem;
+        }
+
+        input {
+            background: var(--bg-soft);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 0.8rem;
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(127, 183, 126, 0.2);
+        }
+
+        #calcularBtn {
+            grid-column: span 2;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #F6F3E8;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        #calcularBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(95, 143, 94, 0.3);
+        }
+
+        .resultados-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            background: var(--bg-soft);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .resultado-card {
+            background: #E7E2CF;
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .resultado-card:hover {
+            transform: translateX(5px);
+        }
+
+        .resultado-card p {
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .resultado-card span {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* GRÁFICO - VERSÃO MELHORADA */
+        .grafico-container {
+            background: #E7E2CF;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+        }
+
+        #grafico {
+            width: 100% !important;
+            height: 400px !important;
+            max-height: 400px;
+        }
+
+        /* MODAL */
+        #modalZoom {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40, 60, 40, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        #modalZoom.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        }
+
+        .modal-content p {
+            color: var(--accent);
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .btn-fechar {
+            position: absolute;
+            top: -45px;
+            right: 0;
+            background: var(--accent);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--primary-dark);
+            transition: all 0.2s;
+        }
+
+        .btn-fechar:hover {
+            transform: scale(1.05);
+            background: var(--primary);
+            color: white;
+        }
+
+    /* FOOTER */
+footer {
+    background: linear-gradient(135deg, #6F8F72, #4F6F52);
+    color: #FFFFFF !important;  /* 👈 FORÇA BRANCO */
+    padding: 2rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+footer p {
+    color: #FFFFFF !important;  /* 👈 FORÇA TODOS OS PARÁGRAFOS */
+}
+
+footer p:first-child {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #FFFFFF !important;
+}
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            main { margin: -1rem auto 2rem; padding: 0 1rem; }
+            section { padding: 1.5rem; }
+            h2 { font-size: 1.4rem; }
+            form, .resultados-grid { grid-template-columns: 1fr; }
+            #calcularBtn { grid-column: span 1; }
+            .slide img, .slide video { height: 280px; }
+            .seta { width: 36px; height: 36px; font-size: 1rem; }
+            .indicadores { bottom: 50px; }
+            #grafico { height: 300px !important; }
+        }
+
+        @media (max-width: 480px) {
+            .slide img, .slide video { height: 220px; }
+            .resultado-card span { font-size: 0.95rem; }
+            #grafico { height: 250px !important; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🏰 Catapulta e a Função do 2º Grau</h1>
+        <p>📐 Interdisciplinaridade: Matemática + Tecnologia</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>📖 O que é uma Função do 2º Grau?</h2>
+            <p>
+                A função do segundo grau tem a forma <strong>h(t) = at² + bt + c</strong>,
+                onde <strong>a ≠ 0</strong>. Seu gráfico é uma parábola.
+            </p>
+            <ul>
+                <li>Se a > 0 → concavidade para cima 📈</li>
+                <li>Se a < 0 → concavidade para baixo 📉</li>
+            </ul>
+            <p>
+                🚀 No movimento da catapulta, a altura da pedra segue essa lei,
+                pois a aceleração da gravidade é constante.
+            </p>
+        </section>
+
+        <section>
+            <h2>🖼️ Galeria da Catapulta</h2>
+            <div class="carrossel-container">
+                <button class="seta seta-esquerda" onclick="moverCarrossel(-1)">◀</button>
+                <div class="carrossel-slides" id="carrosselSlides">
+                    <div class="slide" data-zoom-img="./vd_img/catapultafoto.jpg">
+                        <img src="./vd_img/catapultafoto.jpg" alt="Catapulta frontal" onerror="this.src='https://placehold.co/800x450/7FB77E/FFFFFF?text=Catapulta+Frontal'">
+                        <div class="legenda">🎯 Vista frontal da catapulta</div>
+                    </div>
+                    <div class="slide" data-zoom-img="./vd_img/WhatsApp Image 2026-03-23 at 20.46.07.jpeg">
+                        <img src="./vd_img/WhatsApp Image 2026-03-23 at 20.46.07.jpeg" alt="Detalhe estrutura" onerror="this.src='https://placehold.co/800x450/7FB77E/FFFFFF?text=Detalhe+Estrutura'">
+                        <div class="legenda">🔧 Detalhe da estrutura</div>
+                    </div>
+                    <div class="slide">
+                        <video controls onerror="this.style.display='none'">
+                            <source src="./vd_img/WhatsApp Video 2026-03-23 at 21.21.30.mp4" type="video/mp4">
+                        </video>
+                        <div class="legenda">🎬 Lançamento da pedra</div>
+                    </div>
+                </div>
+                <button class="seta seta-direita" onclick="moverCarrossel(1)">▶</button>
+                <div class="indicadores" id="indicadores"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>⚡ Simulador da Trajetória</h2>
+            <form>
+                <div class="form-group">
+                    <label for="tempoTotal">⏱️ Tempo total (s):</label>
+                    <input type="number" id="tempoTotal" step="0.1" value="2.0">
+                </div>
+                <div class="form-group">
+                    <label for="alturaMax">📏 Altura máxima (m):</label>
+                    <input type="number" id="alturaMax" step="0.1" value="5.0">
+                </div>
+                <button type="button" id="calcularBtn">🚀 Calcular Trajetória</button>
+            </form>
+
+            <div class="resultados-grid">
+                <div class="resultado-card">
+                    <p>📐 Lei de formação:</p>
+                    <span id="funcaoTexto"></span>
+                </div>
+                <div class="resultado-card">
+                    <p>⏰ Altura após 2s:</p>
+                    <span id="alturaDois"></span>
+                </div>
+                <div class="resultado-card">
+                    <p>📍 Vértice da parábola:</p>
+                    <span id="verticeInfo"></span>
+                </div>
+                <div class="resultado-card">
+                    <p>🌱 Raízes (tempo no chão):</p>
+                    <span id="raizesInfo"></span>
+                </div>
+            </div>
+
+            <div class="grafico-container">
+                <canvas id="grafico"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <div id="modalZoom">
+        <div class="modal-content">
+            <button class="btn-fechar" onclick="fecharModal()">✕ Fechar</button>
+            <img id="modalImagem" src="" alt="Imagem ampliada">
+            <p id="modalLegenda"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>🏆 Projeto interdisciplinar - Matemática e Desenvolvimento de Sistemas</p>
+        <p>👥 Integrantes: Ana B - Cainan - Carol C - Daniel V - Rebeca</p>
+    </footer>
+
+    <script>
+        let chart;
+        let slideAtual = 0;
+        let totalSlides;
+
+        // ================= ZOOM =================
+        function abrirModal(imgSrc, legenda) {
+            const modal = document.getElementById('modalZoom');
+            const modalImg = document.getElementById('modalImagem');
+            const modalLegenda = document.getElementById('modalLegenda');
+            modalImg.src = imgSrc;
+            modalLegenda.textContent = legenda;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('modalZoom');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ================= CARROSSEL =================
+        function atualizarCarrossel() {
+            const slidesContainer = document.querySelector('.carrossel-slides');
+            const indicadores = document.querySelectorAll('.indicador');
+            if (slidesContainer) {
+                slidesContainer.style.transform = `translateX(-${slideAtual * 100}%)`;
+            }
+            indicadores.forEach((ind, index) => {
+                ind.classList.toggle('ativo', index === slideAtual);
+            });
+        }
+
+        function moverCarrossel(direcao) {
+            const slides = document.querySelectorAll('.slide');
+            totalSlides = slides.length;
+            slideAtual = (slideAtual + direcao + totalSlides) % totalSlides;
+            atualizarCarrossel();
+        }
+
+        function irParaSlide(index) {
+            slideAtual = index;
+            atualizarCarrossel();
+        }
+
+        function criarIndicadores() {
+            const slides = document.querySelectorAll('.slide');
+            const container = document.getElementById('indicadores');
+            if (!container) return;
+            container.innerHTML = '';
+            slides.forEach((_, i) => {
+                const ind = document.createElement('div');
+                ind.classList.add('indicador');
+                if (i === 0) ind.classList.add('ativo');
+                ind.onclick = () => irParaSlide(i);
+                container.appendChild(ind);
+            });
+            totalSlides = slides.length;
+        }
+
+        // ================= SIMULADOR =================
+        function calcularFuncao(tempoTotal, alturaMax) {
+            const a = -4 * alturaMax / (tempoTotal * tempoTotal);
+            const b = -a * tempoTotal;
+            const c = 0;
+            return { a, b, c };
+        }
+
+        function atualizarSimulador() {
+            const tempoTotal = parseFloat(document.getElementById("tempoTotal").value);
+            const alturaMax = parseFloat(document.getElementById("alturaMax").value);
+
+            if (isNaN(tempoTotal) || tempoTotal <= 0) {
+                alert("⚠️ Por favor, insira um tempo total válido (maior que zero).");
+                return;
+            }
+
+            if (isNaN(alturaMax) || alturaMax <= 0) {
+                alert("⚠️ Por favor, insira uma altura máxima válida (maior que zero).");
+                return;
+            }
+
+            const { a, b, c } = calcularFuncao(tempoTotal, alturaMax);
+            
+            const funcaoTexto = `h(t) = ${a.toFixed(2)}t² + ${b.toFixed(2)}t`;
+            document.getElementById("funcaoTexto").innerHTML = `<strong>${funcaoTexto}</strong>`;
+            
+            const h2 = a * 2 * 2 + b * 2;
+            document.getElementById("alturaDois").innerHTML = `<strong>${h2.toFixed(2)} m</strong>`;
+            
+            const tv = -b / (2 * a);
+            const hv = a * tv * tv + b * tv + c;
+            document.getElementById("verticeInfo").innerHTML = `<strong>t = ${tv.toFixed(2)}s | h = ${hv.toFixed(2)}m</strong>`;
+            
+            document.getElementById("raizesInfo").innerHTML = `<strong>0.00s e ${tempoTotal.toFixed(2)}s</strong>`;
+
+            gerarGrafico(tempoTotal, a, b, alturaMax);
+        }
+
+        function gerarGrafico(T, a, b, alturaMax) {
+            const pontos = [];
+            const labels = [];
+            const numPontos = 60; // Mais pontos para curva suave
+            
+            // Gerar pontos da parábola
+            for (let i = 0; i <= numPontos; i++) {
+                let t = (T * i) / numPontos;
+                let h = a * t * t + b * t;
+                if (h < 0) h = 0;
+                pontos.push(parseFloat(h.toFixed(2)));
+                labels.push(t.toFixed(1));
+            }
+
+            // Destruir gráfico anterior
+            if (chart) {
+                chart.destroy();
+            }
+            
+            const ctx = document.getElementById('grafico').getContext('2d');
+            
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Altura da Pedra (m)',
+                        data: pontos,
+                        borderColor: '#5F8F5E',
+                        backgroundColor: 'rgba(127, 183, 126, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 2,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#F4D06F',
+                        pointBorderColor: '#5F8F5E',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: '#F4D06F',
+                        pointHoverBorderColor: '#2F3E2F',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            enabled: true,
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#FFFFFF',
+                            titleColor: '#2F3E2F',
+                            bodyColor: '#5F6F52',
+                            borderColor: '#F4D06F',
+                            borderWidth: 2,
+                            titleFont: {
+                                size: 13,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 12
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return `📍 Altura: ${context.parsed.y.toFixed(2)} m`;
+                                },
+                                title: function(context) {
+                                    return `⏱️ Tempo: ${context[0].label} s`;
+                                }
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            align: 'center',
+                            labels: {
+                                font: {
+                                    size: 13,
+                                    weight: 'bold'
+                                },
+                                color: '#2F3E2F',
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                padding: 15
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: Math.ceil(alturaMax * 1.1), // Espaço extra no topo
+                            title: {
+                                display: true,
+                                text: '📊 Altura (metros)',
+                                color: '#5F8F5E',
+                                font: {
+                                    size: 13,
+                                    weight: 'bold',
+                                    family: 'Inter'
+                                },
+                                padding: { bottom: 10 }
+                            },
+                            grid: {
+                                color: '#E0D8C8',
+                                drawBorder: true,
+                                borderColor: '#C0B8A8',
+                                borderWidth: 1
+                            },
+                            ticks: {
+                                stepSize: 1,
+                                color: '#5F6F52',
+                                font: {
+                                    size: 11,
+                                    weight: '500'
+                                },
+                                callback: function(value) {
+                                    return value.toFixed(1) + ' m';
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '⏱️ Tempo (segundos)',
+                                color: '#5F8F5E',
+                                font: {
+                                    size: 13,
+                                    weight: 'bold',
+                                    family: 'Inter'
+                                },
+                                padding: { top: 10 }
+                            },
+                            grid: {
+                                color: '#E0D8C8',
+                                drawBorder: true,
+                                borderColor: '#C0B8A8'
+                            },
+                            ticks: {
+                                color: '#5F6F52',
+                                font: {
+                                    size: 11,
+                                    weight: '500'
+                                },
+                                stepSize: 0.5,
+                                callback: function(value) {
+                                    return value + ' s';
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    elements: {
+                        line: {
+                            fill: true,
+                            tension: 0.4
+                        },
+                        point: {
+                            radius: 3,
+                            hoverRadius: 7
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 10,
+                            left: 10,
+                            right: 10
+                        }
+                    }
+                }
+            });
+        }
+
+        // ================= EVENTOS =================
+        window.addEventListener("load", () => {
+            criarIndicadores();
+            atualizarSimulador();
+            
+            document.querySelectorAll('.slide').forEach(slide => {
+                const img = slide.querySelector('img');
+                if (img && !slide.querySelector('video')) {
+                    slide.addEventListener('click', () => {
+                        const zoomSrc = slide.getAttribute('data-zoom-img') || img.src;
+                        const legenda = slide.querySelector('.legenda').textContent;
+                        if (zoomSrc && legenda) {
+                            abrirModal(zoomSrc, legenda);
+                        }
+                    });
+                }
+            });
+        });
+
+        document.getElementById("calcularBtn").addEventListener("click", atualizarSimulador);
+        
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft") moverCarrossel(-1);
+            if (e.key === "ArrowRight") moverCarrossel(1);
+            if (e.key === "Escape") fecharModal();
+        });
+        
+        const modal = document.getElementById('modalZoom');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) fecharModal();
+            });
+        }
+    </script>
+</body>
+</html>
