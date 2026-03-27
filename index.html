@@ -20,6 +20,8 @@
             --border: #D6D2C4;
             --shadow: 0 6px 18px rgba(0,0,0,0.07);
             --radius: 14px;
+            --card-bg: #F0ECD9;
+            --card-hover: #E8E3CF;
         }
 
         * {
@@ -117,12 +119,92 @@
             font-size: 1.2rem;
         }
 
+        /* CARDS DE APLICAÇÕES - CORES SUAVES */
+        .aplicacoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card-aplicacao {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card-aplicacao:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+            background: var(--card-hover);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-aplicacao h3 {
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card-aplicacao p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+
+        .resumo-aplicacoes {
+            background: var(--bg-soft);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .resumo-aplicacoes h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .resumo-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .resumo-item {
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--primary-dark);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .resumo-item:hover {
+            background: var(--accent);
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
         /* VÍDEO - ESTILO SIMPLES */
         .video-container {
             position: relative;
             border-radius: var(--radius);
             overflow: hidden;
-            background: #000;
+            background: #2C3E2B;
             margin-top: 1rem;
         }
 
@@ -132,7 +214,7 @@
             max-height: 500px;
             object-fit: contain;
             display: block;
-            background: #000;
+            background: #2C3E2B;
         }
 
         .video-legenda {
@@ -208,7 +290,7 @@
         }
 
         .resultado-card {
-            background: #E7E2CF;
+            background: var(--card-bg);
             padding: 1rem;
             border-left: 4px solid var(--primary);
             border-radius: 10px;
@@ -217,6 +299,7 @@
 
         .resultado-card:hover {
             transform: translateX(5px);
+            background: var(--card-hover);
         }
 
         .resultado-card p {
@@ -232,7 +315,7 @@
         }
 
         .grafico-container {
-            background: #E7E2CF;
+            background: var(--bg-soft);
             border-radius: 12px;
             padding: 1rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -272,6 +355,7 @@
             #calcularBtn { grid-column: span 1; }
             .video-container video { max-height: 300px; }
             #grafico { height: 300px !important; }
+            .aplicacoes-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 480px) {
@@ -306,6 +390,64 @@
             </p>
         </section>
 
+        <!-- SEÇÃO USOS NO DIA A DIA -->
+        <section>
+            <h2>🌍 Usos da Função do 2º Grau no Dia a Dia</h2>
+            <p>
+                A função de segundo grau aparece em várias áreas do conhecimento e em situações cotidianas. 
+                Sua capacidade de modelar trajetórias parabólicas e encontrar máximos e mínimos a torna 
+                uma ferramenta essencial em diversos campos.
+            </p>
+
+            <div class="aplicacoes-grid">
+                <div class="card-aplicacao">
+                    <div class="card-icon">🏗️</div>
+                    <h3>Engenharia e Arquitetura</h3>
+                    <p>Usada em arcos e pontes para distribuir forças e garantir resistência estrutural. As parábolas são formas naturalmente resistentes.</p>
+                </div>
+
+                <div class="card-aplicacao">
+                    <div class="card-icon">⚽</div>
+                    <h3>Física e Esportes</h3>
+                    <p>Descreve a trajetória de objetos lançados, como bolas de futebol, basquete, foguetes e até saltos ornamentais.</p>
+                </div>
+
+                <div class="card-aplicacao">
+                    <div class="card-icon">📡</div>
+                    <h3>Telecomunicações</h3>
+                    <p>Antenas parabólicas utilizam a propriedade de reflexão da parábola para captar e concentrar sinais de satélite.</p>
+                </div>
+
+                <div class="card-aplicacao">
+                    <div class="card-icon">💰</div>
+                    <h3>Economia e Administração</h3>
+                    <p>Serve para analisar lucro máximo, custo mínimo e ponto de equilíbrio em empresas e negócios.</p>
+                </div>
+
+                <div class="card-aplicacao">
+                    <div class="card-icon">💻</div>
+                    <h3>Computação e Jogos</h3>
+                    <p>Utilizada em simulações de movimento, física de jogos e gráficos computacionais para criar trajetórias realistas.</p>
+                </div>
+
+                <div class="card-aplicacao">
+                    <div class="card-icon">🚗</div>
+                    <h3>Indústria Automotiva</h3>
+                    <p>Presente no design de faróis de carros, que utilizam superfícies parabólicas para otimizar a iluminação.</p>
+                </div>
+            </div>
+
+            <div class="resumo-aplicacoes">
+                <h3>📌 Em resumo, a função do 2º grau é usada para:</h3>
+                <div class="resumo-lista">
+                    <span class="resumo-item">🎯 Prever trajetórias</span>
+                    <span class="resumo-item">📈 Encontrar máximos e mínimos (lucro, custo, altura)</span>
+                    <span class="resumo-item">⚡ Otimizar resultados</span>
+                    <span class="resumo-item">🔧 Distribuir forças e energia de forma eficiente</span>
+                </div>
+            </div>
+        </section>
+
         <section>
             <h2>🎬 Vídeo do Lançamento</h2>
             <div class="video-container">
@@ -314,7 +456,7 @@
                     Seu navegador não suporta a reprodução de vídeos.
                 </video>
                 <div class="video-legenda">
-                    🎯 Lançamento da pedra pela catapulta
+                    🎯 Lançamento da pedra pela catapulta (vídeo sem som)
                 </div>
             </div>
         </section>
@@ -369,7 +511,7 @@
                 </div>
                 <div class="form-group">
                     <label for="alturaMax">📏 Altura máxima (cm):</label>
-                    <input type="number" id="alturaMax" step="0.1" value="500">
+                    <input type="number" id="alturaMax" step="0.1" value="12">
                 </div>
                 <button type="button" id="calcularBtn">🚀 Calcular Trajetória</button>
             </form>
@@ -380,8 +522,8 @@
                     <span id="funcaoTexto"></span>
                 </div>
                 <div class="resultado-card">
-                    <p>⏰ Altura após 2s:</p>
-                    <span id="alturaDois"></span>
+                    <p>⏰ Altura após 1s:</p>
+                    <span id="alturaUm"></span>
                 </div>
                 <div class="resultado-card">
                     <p>📍 Vértice da parábola:</p>
@@ -407,7 +549,7 @@
     <script>
         let chart;
 
-        // ================= SIMULADOR - FUNÇÃO CORRETA =================
+        // ================= SIMULADOR =================
         function calcularFuncao(tempoTotal, alturaMaxCm) {
             const alturaMaxM = alturaMaxCm / 100;
             const tv = tempoTotal / 2;
@@ -434,12 +576,11 @@
             const { a, b, c } = calcularFuncao(tempoTotal, alturaMaxCm);
             
             let funcaoTexto = `h(t) = ${a.toFixed(2)}t² + ${b.toFixed(2)}t`;
-            if (c !== 0) funcaoTexto += ` + ${c.toFixed(2)}`;
             document.getElementById("funcaoTexto").innerHTML = `<strong>${funcaoTexto}</strong>`;
             
-            const h2M = a * 2 * 2 + b * 2 + c;
-            const h2Cm = h2M * 100;
-            document.getElementById("alturaDois").innerHTML = `<strong>${h2Cm.toFixed(1)} cm</strong>`;
+            const h1M = a * 1 * 1 + b * 1 + c;
+            const h1Cm = h1M * 100;
+            document.getElementById("alturaUm").innerHTML = `<strong>${h1Cm.toFixed(1)} cm</strong>`;
             
             const tv = -b / (2 * a);
             const hvM = a * tv * tv + b * tv + c;
@@ -503,7 +644,7 @@
                             enabled: true,
                             mode: 'index',
                             intersect: false,
-                            backgroundColor: '#FFFFFF',
+                            backgroundColor: '#F0ECD9',
                             titleColor: '#2F3E2F',
                             bodyColor: '#5F6F52',
                             borderColor: '#F4D06F',
@@ -535,7 +676,7 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: Math.ceil(alturaMaxCm * 1.1),
+                            max: Math.ceil(alturaMaxCm * 1.2),
                             title: {
                                 display: true,
                                 text: '📊 Altura (centímetros)',
@@ -545,7 +686,7 @@
                             },
                             grid: { color: '#E0D8C8', drawBorder: true, borderColor: '#C0B8A8', borderWidth: 1 },
                             ticks: {
-                                stepSize: 50,
+                                stepSize: 2,
                                 color: '#5F6F52',
                                 font: { size: 11, weight: '500' },
                                 callback: function(value) { return value.toFixed(0) + ' cm'; }
